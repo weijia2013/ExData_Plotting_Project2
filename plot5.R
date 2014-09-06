@@ -1,0 +1,15 @@
+library(dplyr)
+setwd("~/ExData_Plotting_Project2")
+NEI <- readRDS("summarySCC_PM25.rds")
+SCC <- readRDS("Source_Classification_Code.rds")
+nei <- tbl_df(NEI);scc <- tbl_df(SCC)
+rm(NEI);rm(SCC)
+scc <- scc[grep("Onroad", scc$Data.Category), ] #All the motor vehicle are belong to Onroad Data.Category, therefore, use Data.Category variable's Onroad type is better than orther variables matching
+nei <- inner_join(nei,scc)
+motor <- filter(nei, fips == "24510")
+motor <- group_by(motor, year)
+motor <- summarise(motor, emissions = sum(Emissions))
+png(filename = "p2plot5linechar.png", bg = "white", width = 680, height = 680)
+plot(motor$year, motor$emissions, col = "black",type = "l", xlab = "Year", ylab = expression('Total PM'[2.5]*" Emission (tones)"), main = "Line Chart of Trending of Motor Vehicle Annual Emissions 
+     in Baltimore from 1999 to 2008")
+dev.off()
