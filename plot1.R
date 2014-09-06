@@ -1,0 +1,16 @@
+library(dplyr)
+setwd("~/ExData_Plotting_Project2")
+NEI <- readRDS("summarySCC_PM25.rds")
+SCC <- readRDS("Source_Classification_Code.rds")
+nei <- tbl_df(NEI);scc <- tbl_df(SCC)
+rm(NEI);rm(SCC)
+totalPM25 <- group_by(nei, year)
+totalPM25 <- summarise(totalPM25, emissions = sum(Emissions))
+#linechart output
+png(filename = "p2plot1linechar.png", bg = "white", width = 680, height = 680)
+plot(totalPM25$year, totalPM25$emissions, col = "black",type = "l", xlab = "Year", ylab = expression('Total PM'[2.5]*" Emission (tones)"), main = "Line Chart of Trending of Annual Emissions in the US from 1999 to 2008")
+dev.off()
+#bar char output
+png(filename = "p2plot1barchar.png", bg = "white", width = 680, height = 680)
+barplot(totalPM25$emissions,col = "232",names.arg=c("1999","2002","2005","2008"),xlab = "Year", ylab = expression('Total PM'[2.5]*" Emission"), main = "Line Chart of Trending of Annual Emissions in the US from 1999 to 2008")
+dev.off()
