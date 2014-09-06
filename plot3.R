@@ -1,0 +1,15 @@
+library(ggplot2)
+library(dplyr)
+setwd("~/ExData_Plotting_Project2")
+NEI <- readRDS("summarySCC_PM25.rds")
+SCC <- readRDS("Source_Classification_Code.rds")
+nei <- tbl_df(NEI);scc <- tbl_df(SCC)
+rm(NEI);rm(SCC)
+totalPM25 <- filter(nei, fips == "24510")
+totalPM25 <- group_by(totalPM25, type, year)
+totalPM25 <- summarise(totalPM25, emissions = sum(Emissions))
+png(filename = "p2plot3linechar.png", bg = "white", width = 700, height = 680)
+qplot(year, emissions, data = totalPM25, group = totalPM25$type, 
+      color = totalPM25$type, geom = c("point", "line"), ylab = expression('Total PM'[2.5]*" Emission (tones)"), 
+      xlab = "Year", main = "Line Chart of Trending of Annual Emissions in Baltimore from 1999 to 2008 by Type") + scale_colour_discrete(name  ="Pollutant Type")
+dev.off()
