@@ -1,0 +1,8 @@
+source("load.data.R")
+#totalPM25 <- group_by(nei, year)
+#totalPM25 <- summarise(totalPM25, emissions = sum(Emissions))
+png(filename = "p2plot1linechar.png", bg = "white", width = 680, height = 680)
+plot(year, emissions, col = "black",type = "l", xlab = "Year", ylab = expression('Total PM'[2.5]*" Emission (tones)"), main = "Line Chart of Trending of Annual Emissions in the US from 1999 to 2008")
+png(filename = "p2plot1barchar.png", bg = "white", width = 680, height = 680)
+barplot(totalPM25$emissions,col = "232",names.arg=c("1999","2002","2005","2008"),xlab = "Year", ylab = expression('Total PM'[2.5]*" Emission"), main = "Line Chart of Trending of Annual Emissions in the US from 1999 to 2008")
+dev.off()
